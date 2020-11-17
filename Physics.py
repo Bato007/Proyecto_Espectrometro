@@ -143,7 +143,7 @@ entry_1.place(x=245, y=105, width=150)
 window = Tk()
 window['bg'] = 'gray14'
 window.title('Choose particle') 
-window.geometry('500x250')
+window.geometry('550x300')
   
 # label text for title 
 ttk.Label(window, text = "PARTICULAS",  
@@ -161,7 +161,8 @@ n = StringVar()
 monthchoosen = ttk.Combobox(window, width = 27, textvariable = n) 
   
 # Adding combobox drop down list 
-monthchoosen['values'] = (' Proton',  
+monthchoosen['values'] = (' Ninguna',
+                          ' Proton',  
                           ' Neutron', 
                           ' Electron', 
                           ' Positron', 
@@ -171,6 +172,51 @@ monthchoosen['values'] = (' Proton',
                           ' Deuterium') 
   
 monthchoosen.grid(column = 1, row = 5)
+monthchoosen.current()
+
+ttk.Label(window, text = "Selecciona la segunda partícula :",
+          background = 'gray14', foreground ="white",  
+          font = ("Times New Roman", 12)).grid(column = 0, 
+          row = 7, padx = 10, pady = 25)
+# Combobox creation 
+n = StringVar() 
+monthchoosen = ttk.Combobox(window, width = 27, textvariable = n) 
+  
+# Adding combobox drop down list 
+monthchoosen['values'] = (' Ninguna',
+                          ' Proton',  
+                          ' Neutron', 
+                          ' Electron', 
+                          ' Positron', 
+                          ' Tau', 
+                          ' Delta', 
+                          ' Alpha', 
+                          ' Deuterium') 
+  
+monthchoosen.grid(column = 1, row = 7)
+monthchoosen.current()
+
+
+ttk.Label(window, text = "Selecciona la tercera partícula :",
+          background = 'gray14', foreground ="white",  
+          font = ("Times New Roman", 12)).grid(column = 0, 
+          row = 9, padx = 10, pady = 25)
+# Combobox creation 
+n = StringVar() 
+monthchoosen = ttk.Combobox(window, width = 27, textvariable = n) 
+  
+# Adding combobox drop down list 
+monthchoosen['values'] = (' Ninguna',
+                          ' Proton',  
+                          ' Neutron', 
+                          ' Electron', 
+                          ' Positron', 
+                          ' Tau', 
+                          ' Delta', 
+                          ' Alpha', 
+                          ' Deuterium') 
+  
+monthchoosen.grid(column = 1, row = 9)
 monthchoosen.current()
 
 
