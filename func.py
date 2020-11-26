@@ -1,60 +1,121 @@
 from random import *
 
-#Caracteristicas particula
-carga = 0
-masa = 0
-nombre = ""
-
 #Caracteristicas para dibujar la curva
-velocidadConocida = 0
-voltaje = 0
-campoM = 100
-distancia = 10
+selective_speed = 0
+voltage = 0
+magnetic_field = 45
+distance = 5e-2
 
-#Funcion para que el usuario elija particula
-def elegirParticula(nombre):
+# Clase particula
+class Particle:
+    def __init__(self, name, mass, charge):
+        self.name = name
+        self.mass = mass
+        self.charge = charge
+
+#------------Funciones que se pueden llamar antes del voltaje------------
+
+"""
+Funcion para obtener la particula que desea el usuario
+Parametros: name - nombre de la particula seleccionada
+Return: Un objeto tipo particula 
+"""
+def elegirParticula(name):
     with open('particulas.txt', 'r') as f:
-        particulas = [line.strip() for line in f]
+        particles = [line.strip() for line in f]
     
-    for particula in particulas: #Por cada particula en el txt
-        if particula.find(nombre): #Si la particula actual contiene el nombre de la seleccionada
-            datos = particula.split("@") #Separamos los datos por el @
-            nombre = particula[0] #Posicion 0 -> nombre de la particula
-            masa = particula[1] #Posicion 1 -> masa de la particula
-            carga = particula[2] #Posicion 2 -> carga de la particula
-            
-#Funcion para que el usuario customice particula
-def customizarParticula():
-    global carga, masa
-    protones = pro
-    neutrones = neu
-    elec = electrones    
-    #En esta parte no tengo ni idea de como calcular la carga y la masa
+    for particle in particles: #Por cada particula en el txt
+        if particle.find(name): #Si la particula actual contiene el nombre de la seleccionada
+            datos = particle.split("@") #Separamos los datos por el @
+            nombre = datos[0] #Posicion 0 -> nombre de la particula
+            masa = datos[1] #Posicion 1 -> masa de la particula
+            charge = datos[2] #Posicion 2 -> carga de la particula
+            return Particle(nombre, masa, charge)
+
+"""
+Funcion para obtener todas las particulas del txt
+Return: Una lista que contiene todas las particulas
+"""
+def getAllParticles():
+    particle_list = []
+
+    with open('particulas.txt', 'r') as f:
+        particles = [line.strip() for line in f]
+    
+    # Creando los objetos por cada linea del txt
+    for particle in particles: 
+        info = particle.split("@")
+        name = info[0]              #[0] = nombre particula
+        mass = info[1]              #[1] = masa de la particula
+        charge = info[2]            #[2] = carga de la particula
+        temp_particle = Particle(name, mass, charge)
+        particle_list.append(temp_particle)
+    
+    return particle_list
+
+"""
+Funcion para obtener la particula que desea el usuario
+Parametros: particle - objeto tipo particle la cual sera agregada al txt
+"""
+def addParticle(particle):
+    # Preparando el string
+    add_particle = particle.name + "@" + str(particle.mass) + "@" + str(particle.charge) + "\n"
+
+    with open('particulas.txt', 'a') as f:
+        f.write(add_particle)
+
+
+"""
+Funcion para que el usuario customice particula
+Parametros: name - nombre de la particula creada
+            n_neutrones - el numero de neutrones
+            n_protones - el numero de protones
+            n_electrones - el numero de electrones
+Return: Un objeto tipo particula 
+"""
+def customizarParticula(name, n_neutrones, n_protones, n_electrones):
+    # Masas
+    neutron_mass = 1.6749e-27
+    proton_mass = 1.6726e-27
+    electron_mass = 9.1094e-31
+
+    # Cargas
+    neutron_charge = 0
+    electron_charge = -1.6022e-19
+    proton_charge = -1.0 * electron_charge
+
+    # Calculando la carga y masa de la particula
+    temp_mass = (n_neutrones*neutron_mass) + (n_protones*proton_mass) + (n_electrones*electron_mass)
+    temp_charge = (n_neutrones*neutron_charge) + (n_protones*proton_charge) + (n_electrones*electron_charge)
+
+    # Creando la particula
+    particle = Particle(name, temp_mass, temp_charge)
+    return particle
     
     
 #Funcion para obtener el voltaje del selector
+"""
+Funcion para obtener el voltaje que tendra el selector
+Parametros: volt - voltaje ingresado por el usuario
+"""
 def obtenerVoltaje(volt):
-    global voltaje
-    voltaje = volt
-    
-#Funcion para que el usuario calcule la velocidad conocida
+    global voltage
+    voltage = volt
+
+#------------Funciones luego de obtener el voltaje------------
+
+#F uncion para que el usuario calcule la velocidad conocida
 def calcularSelectorVelocidad():
-    global velocidadConocida, campoM, distancia
-    campoE = voltaje/distancia
-    velocidadConocida = campoE/campoM
-    
+    global selective_speed, magnetic_field, distance, voltage
+    campoE = voltage/distance
+    selective_speed = campoE/magnetic_field
+
 #Funcion para calcular la poblacion de particulas
 def generarParticulas():
-    global velocidadConocida
+    global selective_speed
     for i in range(100): #Nuestra poblacion es de 100 particulas
-        velocidadAleatoria = randint(velocidadConocida-50,velocidadConocida+50) #Calculamos velocidad aleatoria
+        velocidadAleatoria = randint(selective_speed-50,selective_speed+50) #Calculamos velocidad aleatoria
         
-        if velocidadAleatoria == velocidadConocida: #Si coincide con la velocidad del selector
+        if velocidadAleatoria == selective_speed: #Si coincide con la velocidad del selector
             return True #La dejamos pasar
     return False #Salimos de la funcion
-
-#Funcion para calcular la orbita del campo magnetico
-def graficarCurva():
-    global masa, carga, velocidadConocida, campoM
-    radio = (masa*velocidadConocida)/(carga*campoM) #Calculamos el radio de la orbita
-    #Se grafica el radio con matplot

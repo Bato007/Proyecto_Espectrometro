@@ -2,5 +2,5 @@ protones@1.67E-27@1.67E-19
 neutrones@1.67E-27@0
 positron@9.11E-31@1.60E-19
 nucleo de deuterio@3.96E-30@1.602E-19
-partícula alfa@6.64E-27@3.2e-19
-antimuon@1.89E-28@1.60e-19
+particula alfa@6.64E-27@3.2e-19
+antimuon@1.89E-28@1.60e-19hola@12@0hola@12@0hola@12@0
