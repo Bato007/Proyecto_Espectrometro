@@ -1,9 +1,13 @@
 from random import *
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 #Caracteristicas para dibujar la curva
-selective_speed = 0
+selective_speed = 0.0
 voltage = 0
-magnetic_field = 45
+magnetic_field = 0.5
+in_magnetic_field = 0.005
 distance = 5e-2
 
 # Clase particula
@@ -28,8 +32,8 @@ def elegirParticula(name):
         if particle.find(name): #Si la particula actual contiene el nombre de la seleccionada
             datos = particle.split("@") #Separamos los datos por el @
             nombre = datos[0] #Posicion 0 -> nombre de la particula
-            masa = datos[1] #Posicion 1 -> masa de la particula
-            charge = datos[2] #Posicion 2 -> carga de la particula
+            masa = float(datos[1]) #Posicion 1 -> masa de la particula
+            charge = float(datos[2]) #Posicion 2 -> carga de la particula
             return Particle(nombre, masa, charge)
 
 """
@@ -46,8 +50,8 @@ def getAllParticles():
     for particle in particles: 
         info = particle.split("@")
         name = info[0]              #[0] = nombre particula
-        mass = info[1]              #[1] = masa de la particula
-        charge = info[2]            #[2] = carga de la particula
+        mass = float(info[1])         #[1] = masa de la particula
+        charge = float(info[2])       #[2] = carga de la particula
         temp_particle = Particle(name, mass, charge)
         particle_list.append(temp_particle)
     
@@ -105,7 +109,7 @@ def obtenerVoltaje(volt):
 #------------Funciones luego de obtener el voltaje------------
 
 #F uncion para que el usuario calcule la velocidad conocida
-def calcularSelectorVelocidad():
+def speedSelector():
     global selective_speed, magnetic_field, distance, voltage
     campoE = voltage/distance
     selective_speed = campoE/magnetic_field
@@ -119,3 +123,57 @@ def generarParticulas():
         if velocidadAleatoria == selective_speed: #Si coincide con la velocidad del selector
             return True #La dejamos pasar
     return False #Salimos de la funcion
+
+"""
+Calcula el radio del semicirculo
+Parametros: particle - particula en movimiento
+Return: vector radio (positivo eje y & negativo eje -y)
+"""
+def calculateRadius(particle):
+    global selective_speed, magnetic_field
+
+    # Se calcula el radio (incluye negativo)
+    if(particle.charge != 0):
+        radius = (particle.mass * selective_speed)/(particle.charge * magnetic_field)
+    else:
+        radius = 0
+    return radius
+
+"""
+Grafica todas las particulas que pasaron
+Parametros: particle_list - una lista con todas las particulas que se deseen graficar
+"""
+def tracePath(particle_list):
+
+    # Empieza a agregar las particulas
+    for particle in particle_list:
+        radius = calculateRadius(particle)
+        if(radius != 0):
+            x,y = generateSemicircle(radius)
+            plt.plot(x, y, label=str(particle.name))
+        else:
+            print("Hola")
+    plt.xlabel("Distancia (m)")
+    plt.ylabel("Altura (m)")
+    plt.grid()
+    plt.show()
+
+"""
+Obtiene los valores parametricos de x & y
+Parametros: radius - el radio en m puede ser positivo o negativo
+Return: dos listas con los valores a graficar 
+"""
+def generateSemicircle(radius):
+
+    # Indicando cuanto del circulo se quiere
+    theta = np.linspace(0, np.pi)
+
+    x = radius*np.cos(theta) + radius
+
+    y = abs(radius)*np.sin(theta)
+
+    return x, y
+
+obtenerVoltaje(1000)
+speedSelector()
+tracePath(getAllParticles())
