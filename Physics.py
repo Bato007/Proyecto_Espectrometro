@@ -80,11 +80,11 @@ def finishSel():
             # verifies txt existence
             if (os.path.isfile("particulas.txt")):
                 os.remove("particulas.txt")
-            f= open("particulas.txt","w+")
-            f.write(particle_dicc[variable.get()]+'\n')
-            f.write(particle_dicc[variable_2.get()]+'\n')
-            f.write(particle_dicc[variable_3.get()])
-            f.close()
+            file= open("particulas.txt","w+")
+            file.write(particle_dicc[variable.get()]+'\n')
+            file.write(particle_dicc[variable_2.get()]+'\n')
+            file.write(particle_dicc[variable_3.get()])
+            file.close()
             generatePlot()
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             window.withdraw()
@@ -96,83 +96,86 @@ def finishSel():
         
 # Particle summoner
 def particleSummoner():
-    global variable, variable_2, variable_3, window
-    window = tk.Toplevel()
-    window['bg'] = 'gray14'
-    window.title('Choose particle') 
-    window.geometry('550x300')
-    
-    # label text for title 
-    ttk.Label(window, text = "PARTICULAS",  
-              background = 'gray14', foreground ="cyan3",  
-              font = ("Calibri Bold", 26)).place(x=175,y=0)
+    if(f.voltage != ''):
+        global variable, variable_2, variable_3, window
+        window = tk.Toplevel()
+        window['bg'] = 'gray14'
+        window.title('Choose particle') 
+        window.geometry('550x300')
+        
+        # label text for title 
+        ttk.Label(window, text = "PARTICULAS",  
+                  background = 'gray14', foreground ="cyan3",  
+                  font = ("Calibri Bold", 26)).place(x=175,y=0)
 
-#----------------FIRST PARTICLE---------------------
-    # label 
-    ttk.Label(window, text = "Primera particula",
-              background = 'gray14', foreground ="white",  
-              font = ("Times New Roman", 12)).place(x=50,y=70)
-      
+    #----------------FIRST PARTICLE---------------------
+        # label 
+        ttk.Label(window, text = "Primera particula",
+                  background = 'gray14', foreground ="white",  
+                  font = ("Times New Roman", 12)).place(x=50,y=70)
+          
 
-    # Choice box
-    particles = (' Proton',  
-                ' Neutron', 
-                ' Electron', 
-                ' Positron', 
-                ' Antimuon', 
-                ' Alpha', 
-              ' Deuterium')
-    variable = StringVar(window)
-    variable.set(' Particula 1')
-    box_1 = OptionMenu(window,variable,*particles).place(x=60,y=100)
-    
-#----------------2nd PARTICLE---------------------
+        # Choice box
+        particles = (' Proton',  
+                    ' Neutron', 
+                    ' Electron', 
+                    ' Positron', 
+                    ' Antimuon', 
+                    ' Alpha', 
+                  ' Deuterium')
+        variable = StringVar(window)
+        variable.set(' Particula 1')
+        box_1 = OptionMenu(window,variable,*particles).place(x=60,y=100)
+        
+    #----------------2nd PARTICLE---------------------
 
-    # label 
-    ttk.Label(window, text = "Segunda particula",
-              background = 'gray14', foreground ="white",  
-              font = ("Times New Roman", 12)).place(x=225,y=70)
-      
+        # label 
+        ttk.Label(window, text = "Segunda particula",
+                  background = 'gray14', foreground ="white",  
+                  font = ("Times New Roman", 12)).place(x=225,y=70)
+          
 
-    # Choice box
-    particles_2 = (' Ninguna',
-                ' Proton',  
-                ' Neutron', 
-                ' Electron', 
-                ' Positron', 
-                ' Antimuon', 
-                ' Alpha', 
-              ' Deuterium')
-    variable_2 = StringVar(window)
-    variable_2.set(' Particula 2')
-    box_2 = OptionMenu(window,variable_2,*particles_2).place(x=240,y=100)
-    
+        # Choice box
+        particles_2 = (' Ninguna',
+                    ' Proton',  
+                    ' Neutron', 
+                    ' Electron', 
+                    ' Positron', 
+                    ' Antimuon', 
+                    ' Alpha', 
+                  ' Deuterium')
+        variable_2 = StringVar(window)
+        variable_2.set(' Particula 2')
+        box_2 = OptionMenu(window,variable_2,*particles_2).place(x=240,y=100)
+        
 
-#----------------3rd PARTICLE---------------------
+    #----------------3rd PARTICLE---------------------
 
-    # label 
-    ttk.Label(window, text = "Tercera particula",
-              background = 'gray14', foreground ="white",  
-              font = ("Times New Roman", 12)).place(x=400,y=70)
-      
-    # Choice box
-    particles_3 = (' Ninguna',
-                ' Proton',  
-                ' Neutron', 
-                ' Electron', 
-                ' Positron', 
-                ' Antimuon', 
-                ' Alpha', 
-              ' Deuterium')
-    variable_3 = StringVar(window)
-    variable_3.set(' Particula 3')
-    box_3 = OptionMenu(window,variable_3,*particles_3).place(x=400,y=100)
+        # label 
+        ttk.Label(window, text = "Tercera particula",
+                  background = 'gray14', foreground ="white",  
+                  font = ("Times New Roman", 12)).place(x=400,y=70)
+          
+        # Choice box
+        particles_3 = (' Ninguna',
+                    ' Proton',  
+                    ' Neutron', 
+                    ' Electron', 
+                    ' Positron', 
+                    ' Antimuon', 
+                    ' Alpha', 
+                  ' Deuterium')
+        variable_3 = StringVar(window)
+        variable_3.set(' Particula 3')
+        box_3 = OptionMenu(window,variable_3,*particles_3).place(x=400,y=100)
 
-#----------------Final Button---------------------
-    
-    Button(window,text = 'INGRESAR', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
-       command = finishSel).place(x = 240, y = 250)
-#----Ends func-----    
+    #----------------Final Button---------------------
+        
+        Button(window,text = 'INGRESAR', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
+           command = finishSel).place(x = 240, y = 250)
+    #----Ends func-----
+    else:
+        messagebox.showinfo(message = 'Ingrese VOLTAJE', title = 'Fatal!!')
     
 # Summons particle choosing window
 Button(text = 'Escoger Partículas', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
@@ -185,7 +188,7 @@ img = Image.open("particle.jpg")
 img = img.resize((185,130), Image.ANTIALIAS)
 my_image =  ImageTk.PhotoImage(img)
 lbl = Label(image = my_image).place(x=229,y=225)
-root.protocol("WM_DELETE_WINDOW", closing)
+root.protocol("WM_DELETE_WINDOW")
 
 
 root.mainloop()

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #Caracteristicas para dibujar la curva
 selective_speed = 0.0
-voltage = 0
+voltage =''
 magnetic_field = 0.5
 in_magnetic_field = 0.00005
 distance = 5e-2
