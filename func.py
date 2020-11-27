@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 selective_speed = 0.0
 voltage = 0
 magnetic_field = 0.5
-in_magnetic_field = 0.005
+in_magnetic_field = 0.00005
 distance = 5e-2
 
 # Clase particula
@@ -134,7 +134,7 @@ def calculateRadius(particle):
 
     # Se calcula el radio (incluye negativo)
     if(particle.charge != 0):
-        radius = (particle.mass * selective_speed)/(particle.charge * magnetic_field)
+        radius = (particle.mass * selective_speed)/(particle.charge * in_magnetic_field)
     else:
         radius = 0
     return radius
@@ -152,7 +152,8 @@ def tracePath(particle_list):
             x,y = generateSemicircle(radius)
             plt.plot(x, y, label=str(particle.name))
         else:
-            print("Hola")
+            plt.axvline(0)
+    plt.legend(loc = (0, 0.7))
     plt.xlabel("Distancia (m)")
     plt.ylabel("Altura (m)")
     plt.grid()
@@ -173,7 +174,3 @@ def generateSemicircle(radius):
     y = abs(radius)*np.sin(theta)
 
     return x, y
-
-obtenerVoltaje(1000)
-speedSelector()
-tracePath(getAllParticles())
