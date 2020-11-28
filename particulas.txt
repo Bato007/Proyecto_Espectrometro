@@ -1,5 +1,6 @@
 Proton@1.67E-27@1.67E-19
 Neutron@1.67E-27@0
+Electron@9.1E-31@-1.6E-19
 Positron@9.11E-31@1.60E-19
 Deuterium@3.96E-30@1.602E-19
 Alpha@6.64E-27@3.2e-19
