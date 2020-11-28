@@ -67,6 +67,7 @@ def addParticle(particle):
 
     with open('particulas.txt', 'a') as f:
         f.write(add_particle)
+        f.close()
 
 
 """

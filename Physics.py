@@ -42,11 +42,16 @@ particle_dicc = {' Proton':'protones@1.67E-27@1.67E-19',
                  ' Antimuon':'antimuon@1.89E-28@1.60e-19',
                  ' Alpha':'particula alfa@6.64E-27@3.2e-19',
                  ' Deuterium':'nucleo de deuterio@3.96E-30@1.602E-19',
-                 ' Ninguna':'nada@0@0'}
+                 ' Ninguna':'nada@0@0',
+                 ' Costumizada':''}
 variable = ''
 variable_2 = ''
 variable_3 = ''
 window = ''
+name = ''
+proton = ''
+electron = ''
+neutron = ''
 
 #-----------------V-O-L-T-A-G-E---S-T-U-F-F-----------------------------------------------
 
@@ -81,19 +86,114 @@ def finishSel():
             if (os.path.isfile("particulas.txt")):
                 os.remove("particulas.txt")
             file= open("particulas.txt","w+")
-            file.write(particle_dicc[variable.get()]+'\n')
-            file.write(particle_dicc[variable_2.get()]+'\n')
-            file.write(particle_dicc[variable_3.get()])
+            temp = [variable.get(),variable_2.get(),variable_3.get()] 
+            for j in temp:
+                file.write(particle_dicc[str(j)]+'\n')
             file.close()
-            generatePlot()
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             window.withdraw()
+            generatePlot()
         else:
             messagebox.showinfo(message = 'Ingrese valores ADECUADOS', title = 'Fatal!!')
     else:
         messagebox.showinfo(message = 'Ingrese el VOLTAJE antes de continuar', title = 'Fatal!!')
     
+    
+def finishSel_2():
+    if(f.voltage != ''):
+        if((nNeutron.get() != ' Neutrones') & (nElectron.get() != ' Electrones') & (nProton.get() != ' Protones')):
+            # verifies txt existence
+            if (os.path.isfile("particulas.txt")):
+                os.remove("particulas.txt")
+            file= open("particulas.txt","w+")
+            a = customizarParticula('x', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
+            addParticle(a)
+            messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
+            window_2.withdraw()
+            generatePlot()
+        else:
+            messagebox.showinfo(message = 'Ingrese valores ADECUADOS', title = 'Fatal!!')
+    else:
+        messagebox.showinfo(message = 'Ingrese el VOLTAJE antes de continuar', title = 'Fatal!!')
+# Customize window
+    
+def customize():
+    if(f.voltage != ''):
+        window_2 = tk.Toplevel()
+        window_2['bg'] = 'gray14'
+        window_2.title('Particula costumizada ') 
+        window_2.geometry('550x370')
+        # labels ---------------------------------------------------------
+        ttk.Label(window_2, text = "COSTUMIZADO",  
+                      background = 'gray14', foreground ="cyan3",  
+                      font = ("Calibri Bold", 26)).place(x=175,y=0)
+        ttk.Label(window_2, text = "Nombre de particula",
+                      background = 'gray14', foreground ="white",  
+                      font = ("Times New Roman", 12)).place(x=120,y=50)
+        ttk.Label(window_2, text = "No. Neutrones",
+                      background = 'gray14', foreground ="white",  
+                      font = ("Times New Roman", 12)).place(x=120,y=100)
+        ttk.Label(window_2, text = "No. Protones",
+                      background = 'gray14', foreground ="white",  
+                      font = ("Times New Roman", 12)).place(x=120,y=150)
+        ttk.Label(window_2, text = "No. Electrones",
+                      background = 'gray14', foreground ="white",  
+                      font = ("Times New Roman", 12)).place(x=120,y=200)
+        # Entries----------------------------------------------------------
+       # Choice box
+        entry_1 = ttk.Entry(window_2)
+        entry_1.place(x=120, y=75, width=300)
+       
+        neutrons = (' 1',  
+                    ' 2', 
+                    ' 3', 
+                    ' 4', 
+                    ' 5', 
+                    ' 6', 
+                    ' 7',
+                    ' 8',
+                    ' 9',
+                    ' 10')
+        nNeutron = StringVar(window_2)
+        nNeutron.set(' Neutrones')
+        neu_box = OptionMenu(window_2,nNeutron,*neutrons).place(x=120,y=120)
         
+        protons = (' 1',  
+                ' 2', 
+                ' 3', 
+                ' 4', 
+                ' 5', 
+                ' 6', 
+                ' 7',
+                ' 8',
+                ' 9',
+                ' 10')
+        nProton = StringVar(window_2)
+        nProton.set(' Protones')
+        pro_box = OptionMenu(window_2,nProton,*protons).place(x=120,y=170)
+        
+        electrons = (' 1',  
+                    ' 2', 
+                    ' 3', 
+                    ' 4', 
+                    ' 5', 
+                    ' 6', 
+                    ' 7',
+                    ' 8',
+                    ' 9',
+                    ' 10')
+        nElectron = StringVar(window_2)
+        nElectron.set(' Electrones')
+        ele_box = OptionMenu(window_2,nElectron,*electrons).place(x=120,y=220)
+    
+         # Button----------------------------------------------------------
+        Button(window_2,text = 'INGRESAR', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
+           command = finishSel).place(x = 250, y = 300)
+    else:
+        messagebox.showinfo(message = 'Ingrese VOLTAJE', title = 'Fatal!!')
+
+#---------ends func-------------------------------------------------------
+
 # Particle summoner
 def particleSummoner():
     if(f.voltage != ''):
@@ -122,7 +222,8 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                  ' Deuterium')
+                    ' Deuterium',
+                    ' Costumizada')
         variable = StringVar(window)
         variable.set(' Particula 1')
         box_1 = OptionMenu(window,variable,*particles).place(x=60,y=100)
@@ -143,7 +244,8 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                  ' Deuterium')
+                    ' Deuterium',
+                    ' Costumizada')
         variable_2 = StringVar(window)
         variable_2.set(' Particula 2')
         box_2 = OptionMenu(window,variable_2,*particles_2).place(x=240,y=100)
@@ -164,7 +266,8 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                  ' Deuterium')
+                    ' Deuterium',
+                    ' Costumizada')
         variable_3 = StringVar(window)
         variable_3.set(' Particula 3')
         box_3 = OptionMenu(window,variable_3,*particles_3).place(x=400,y=100)
@@ -181,7 +284,8 @@ def particleSummoner():
 Button(text = 'Escoger Partículas', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
        command = particleSummoner).place(x = 100, y = 160)
         
-        
+Button(text = 'Costumizar', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
+       command = customize).place(x = 300, y = 160)        
 
 #Imagen de GUI
 img = Image.open("particle.jpg")
