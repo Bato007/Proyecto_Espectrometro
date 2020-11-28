@@ -146,6 +146,8 @@ Grafica todas las particulas que pasaron
 Parametros: particle_list - una lista con todas las particulas que se deseen graficar
 """
 def tracePath(particle_list):
+    global voltage
+    graph_color = ["r", "g", "b"]
     todas = getAllParticles()
     
     # Empieza a agregar las particulas
@@ -156,12 +158,14 @@ def tracePath(particle_list):
                 radius = calculateRadius(object)
                 if(radius != 0):
                     x,y = generateSemicircle(radius)
-                    plt.plot(x, y, label=str(object.name))
+                    plt.plot(x, y, label=str(object.name), color = graph_color[0])
                 else:
-                    plt.axvline(0, Label = str(object.name))
+                    plt.axvline(0, Label = str(object.name), color = graph_color[0])
+                del graph_color[0]
     plt.legend(loc = (0, 0.7))
     plt.xlabel("Distancia (m)")
     plt.ylabel("Altura (m)")
+    plt.title("Voltaje = " + str(voltage) + " (V)")
     plt.grid()
     plt.show()
 
