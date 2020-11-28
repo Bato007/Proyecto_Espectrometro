@@ -106,8 +106,8 @@ def finishSel_2():
             if (os.path.isfile("particulas.txt")):
                 os.remove("particulas.txt")
             file= open("particulas.txt","w+")
-            a = customizarParticula('x', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
-            addParticle(a)
+            a = f.customizarParticula('x', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
+            f.addParticle(a)
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             window_2.withdraw()
             generatePlot()
@@ -119,6 +119,7 @@ def finishSel_2():
     
 def customize():
     if(f.voltage != ''):
+        global nNeutron, nProton, nElectron, window_2
         window_2 = tk.Toplevel()
         window_2['bg'] = 'gray14'
         window_2.title('Particula costumizada ') 
@@ -188,7 +189,7 @@ def customize():
     
          # Button----------------------------------------------------------
         Button(window_2,text = 'INGRESAR', bg='turquoise4', fg='gray97', font = ('Calibri Bold','10'),
-           command = finishSel).place(x = 250, y = 300)
+           command = finishSel_2).place(x = 250, y = 300)
     else:
         messagebox.showinfo(message = 'Ingrese VOLTAJE', title = 'Fatal!!')
 
