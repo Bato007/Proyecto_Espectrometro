@@ -35,14 +35,15 @@ label = Label(root, text = 'SIMULADOR', font = ('Calibri Bold','40'), fg='cyan2'
 label.place(x = 128, y = 5)
 
 # Just stuff
+# Lo adapte para que entre rapido a las funciones de split y grafica
 particle_dicc = {' Proton':'protones@1.67E-27@1.67E-19',
                  ' Neutron':'neutrones@1.67E-27@0',
                  ' Electron':'electron@9.109E-31@-1.67E-19',
                  ' Positron':'positron@9.11E-31@1.60E-19',
                  ' Antimuon':'antimuon@1.89E-28@1.60e-19',
                  ' Alpha':'particula alfa@6.64E-27@3.2e-19',
-                 ' Deuterium':'nucleo de deuterio@3.96E-30@1.602E-19',
-                 ' Ninguna':'nada@0@0'}
+                 ' Deuterium':'nucleo de deuterio@3.96E-30@1.602E-19'} 
+# Globales
 variable = ''
 variable_2 = ''
 variable_3 = ''
@@ -80,17 +81,25 @@ def generatePlot():
 
 # Finished Selection
 def finishSel():
+    # Si el voltaje no existe, pues no te deja pasar
     if(f.voltage != ''):
+        # Verifica si no dejaste los strings predeterminados como parte de la estetica
         if((variable.get() != ' Particula 1') & (variable_2.get() != ' Particula 2') & (variable_3.get() != ' Particula 3')):
             # verifies txt existence
             if (os.path.isfile("particulas.txt")):
+                # Remueve si existe ya el txt
                 os.remove("particulas.txt")
+            # Lo crea por que de seguro ya no existia o lo eliminamos
             file= open("particulas.txt","w+")
+            # Los valores recogidos de las opctionMenus
             temp = [variable.get(),variable_2.get(),variable_3.get()] 
             for j in temp:
-                file.write(particle_dicc[str(j)]+'\n')
+                # Elimina la opcion Ninguna de las respuestas del optionMenu al solo evadirla
+                if(j != ' Ninguna'):
+                    file.write(particle_dicc[str(j)]+'\n')
             file.close()
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
+            # Cierra window
             window.withdraw()
             generatePlot()
         else:
@@ -100,26 +109,35 @@ def finishSel():
     
 # Finished Selection 2
 def finishSel_2():
+    # El Voltaje no puede venir vacio
     if(f.voltage != ''):
+        # Evita recibir valores esteticos predeterminados
         if((nNeutron.get() != ' Neutrones') & (nElectron.get() != ' Electrones') & (nProton.get() != ' Protones')):
             # verifies txt existence
             if (os.path.isfile("particulas.txt")):
+                # Remueve txt si existia
                 os.remove("particulas.txt")
+            # Crea nuevo txt
             file= open("particulas.txt","w+")
+            # Llama funcion 
             a = f.customizarParticula('Customized', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
             f.addParticle(a)
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
+            # Cierra funcion window_2
             window_2.withdraw()
             generatePlot()
         else:
             messagebox.showinfo(message = 'Ingrese valores ADECUADOS', title = 'Fatal!!')
     else:
         messagebox.showinfo(message = 'Ingrese el VOLTAJE antes de continuar', title = 'Fatal!!')
+
+"""Abre la ventana de costumizar"""
 # Customize window
-    
 def customize():
     if(f.voltage != ''):
         global nNeutron, nProton, nElectron, window_2
+        # Abre nuevo widget
+        # GUI stuff
         window_2 = tk.Toplevel()
         window_2['bg'] = 'gray14'
         window_2.title('Particula costumizada ') 
@@ -142,9 +160,10 @@ def customize():
                       font = ("Times New Roman", 12)).place(x=120,y=200)
         # Entries----------------------------------------------------------
        # Choice box
+       # Nombre, ni idea de como sacar el valor aun
         entry_1 = ttk.Entry(window_2)
         entry_1.place(x=120, y=75, width=300)
-       
+        # Menu de opcion de neutron
         neutrons = (' 1',  
                     ' 2', 
                     ' 3', 
@@ -155,10 +174,11 @@ def customize():
                     ' 8',
                     ' 9',
                     ' 10')
+        # Valor recabado del OptionMenu de neutrones
         nNeutron = StringVar(window_2)
         nNeutron.set(' Neutrones')
         neu_box = OptionMenu(window_2,nNeutron,*neutrons).place(x=120,y=120)
-        
+        # Menu de opcion de proton
         protons = (' 1',  
                 ' 2', 
                 ' 3', 
@@ -169,10 +189,11 @@ def customize():
                 ' 8',
                 ' 9',
                 ' 10')
+        # Valor recabado del OptionMenu de Protones
         nProton = StringVar(window_2)
         nProton.set(' Protones')
         pro_box = OptionMenu(window_2,nProton,*protons).place(x=120,y=170)
-        
+        # Menu de opcion de electron
         electrons = (' 1',  
                     ' 2', 
                     ' 3', 
@@ -183,6 +204,7 @@ def customize():
                     ' 8',
                     ' 9',
                     ' 10')
+        # Valor recabado del OptionMenu de Electrones
         nElectron = StringVar(window_2)
         nElectron.set(' Electrones')
         ele_box = OptionMenu(window_2,nElectron,*electrons).place(x=120,y=220)
@@ -199,6 +221,7 @@ def customize():
 def particleSummoner():
     if(f.voltage != ''):
         global variable, variable_2, variable_3, window
+        # Abre widget nombrado window
         window = tk.Toplevel()
         window['bg'] = 'gray14'
         window.title('Choose particle') 
@@ -224,6 +247,7 @@ def particleSummoner():
                     ' Antimuon', 
                     ' Alpha', 
                     ' Deuterium')
+        # Saca valor del optionMenu
         variable = StringVar(window)
         variable.set(' Particula 1')
         box_1 = OptionMenu(window,variable,*particles).place(x=60,y=100)
@@ -245,6 +269,7 @@ def particleSummoner():
                     ' Antimuon', 
                     ' Alpha', 
                     ' Deuterium')
+        # Saca valor del optionMenu
         variable_2 = StringVar(window)
         variable_2.set(' Particula 2')
         box_2 = OptionMenu(window,variable_2,*particles_2).place(x=240,y=100)
@@ -266,6 +291,7 @@ def particleSummoner():
                     ' Antimuon', 
                     ' Alpha', 
                     ' Deuterium')
+        # Saca valor del optionMenu
         variable_3 = StringVar(window)
         variable_3.set(' Particula 3')
         box_3 = OptionMenu(window,variable_3,*particles_3).place(x=400,y=100)
