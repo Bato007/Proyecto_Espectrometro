@@ -1,4 +1,5 @@
 from random import *
+from tkinter import Label
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -153,7 +154,7 @@ def tracePath(particle_list):
             x,y = generateSemicircle(radius)
             plt.plot(x, y, label=str(particle.name))
         else:
-            plt.axvline(0)
+            plt.axvline(0, Label = str(particle.name))
     plt.legend(loc = (0, 0.7))
     plt.xlabel("Distancia (m)")
     plt.ylabel("Altura (m)")
