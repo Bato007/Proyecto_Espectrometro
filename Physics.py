@@ -42,8 +42,7 @@ particle_dicc = {' Proton':'protones@1.67E-27@1.67E-19',
                  ' Antimuon':'antimuon@1.89E-28@1.60e-19',
                  ' Alpha':'particula alfa@6.64E-27@3.2e-19',
                  ' Deuterium':'nucleo de deuterio@3.96E-30@1.602E-19',
-                 ' Ninguna':'nada@0@0',
-                 ' Costumizada':''}
+                 ' Ninguna':'nada@0@0'}
 variable = ''
 variable_2 = ''
 variable_3 = ''
@@ -79,6 +78,7 @@ def generatePlot():
     f.speedSelector()
     f.tracePath(f.getAllParticles())
 
+# Finished Selection
 def finishSel():
     if(f.voltage != ''):
         if((variable.get() != ' Particula 1') & (variable_2.get() != ' Particula 2') & (variable_3.get() != ' Particula 3')):
@@ -98,7 +98,7 @@ def finishSel():
     else:
         messagebox.showinfo(message = 'Ingrese el VOLTAJE antes de continuar', title = 'Fatal!!')
     
-    
+# Finished Selection 2
 def finishSel_2():
     if(f.voltage != ''):
         if((nNeutron.get() != ' Neutrones') & (nElectron.get() != ' Electrones') & (nProton.get() != ' Protones')):
@@ -106,7 +106,7 @@ def finishSel_2():
             if (os.path.isfile("particulas.txt")):
                 os.remove("particulas.txt")
             file= open("particulas.txt","w+")
-            a = f.customizarParticula('x', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
+            a = f.customizarParticula('Customized', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
             f.addParticle(a)
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             window_2.withdraw()
@@ -223,8 +223,7 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                    ' Deuterium',
-                    ' Costumizada')
+                    ' Deuterium')
         variable = StringVar(window)
         variable.set(' Particula 1')
         box_1 = OptionMenu(window,variable,*particles).place(x=60,y=100)
@@ -245,8 +244,7 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                    ' Deuterium',
-                    ' Costumizada')
+                    ' Deuterium')
         variable_2 = StringVar(window)
         variable_2.set(' Particula 2')
         box_2 = OptionMenu(window,variable_2,*particles_2).place(x=240,y=100)
@@ -267,8 +265,7 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                    ' Deuterium',
-                    ' Costumizada')
+                    ' Deuterium')
         variable_3 = StringVar(window)
         variable_3.set(' Particula 3')
         box_3 = OptionMenu(window,variable_3,*particles_3).place(x=400,y=100)
