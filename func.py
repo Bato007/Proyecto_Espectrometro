@@ -64,10 +64,10 @@ Parametros: particle - objeto tipo particle la cual sera agregada al txt
 """
 def addParticle(particle):
     # Preparando el string
-    add_particle = particle.name + "@" + str(particle.mass) + "@" + str(particle.charge) + "\n"
+    add_particle = particle.name + "@" + str(particle.mass) + "@" + str(particle.charge)
 
     with open('particulas.txt', 'a') as f:
-        f.write(add_particle)
+        f.write("\n"+add_particle)
         f.close()
 
 
@@ -146,15 +146,19 @@ Grafica todas las particulas que pasaron
 Parametros: particle_list - una lista con todas las particulas que se deseen graficar
 """
 def tracePath(particle_list):
-
+    todas = getAllParticles()
+    
     # Empieza a agregar las particulas
     for particle in particle_list:
-        radius = calculateRadius(particle)
-        if(radius != 0):
-            x,y = generateSemicircle(radius)
-            plt.plot(x, y, label=str(particle.name))
-        else:
-            plt.axvline(0, Label = str(particle.name))
+        particle = particle.replace(" ", "")
+        for object in todas:
+            if object.name == particle:
+                radius = calculateRadius(object)
+                if(radius != 0):
+                    x,y = generateSemicircle(radius)
+                    plt.plot(x, y, label=str(object.name))
+                else:
+                    plt.axvline(0, Label = str(object.name))
     plt.legend(loc = (0, 0.7))
     plt.xlabel("Distancia (m)")
     plt.ylabel("Altura (m)")

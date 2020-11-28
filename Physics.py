@@ -52,6 +52,7 @@ name = ''
 proton = ''
 electron = ''
 neutron = ''
+temp = ''
 
 #-----------------V-O-L-T-A-G-E---S-T-U-F-F-----------------------------------------------
 
@@ -76,28 +77,19 @@ vol_entry.place(x=190, y=105, width=170)
 # Finish Selection
 
 def generatePlot():
+    global temp
     f.speedSelector()
-    f.tracePath(f.getAllParticles())
+    f.tracePath(temp)
 
 # Finished Selection
 def finishSel():
+    global temp
     # Si el voltaje no existe, pues no te deja pasar
     if(f.voltage != ''):
         # Verifica si no dejaste los strings predeterminados como parte de la estetica
         if((variable.get() != ' Particula 1') & (variable_2.get() != ' Particula 2') & (variable_3.get() != ' Particula 3')):
-            # verifies txt existence
-            if (os.path.isfile("particulas.txt")):
-                # Remueve si existe ya el txt
-                os.remove("particulas.txt")
-            # Lo crea por que de seguro ya no existia o lo eliminamos
-            file= open("particulas.txt","w+")
             # Los valores recogidos de las opctionMenus
             temp = [variable.get(),variable_2.get(),variable_3.get()] 
-            for j in temp:
-                # Elimina la opcion Ninguna de las respuestas del optionMenu al solo evadirla
-                if(j != ' Ninguna'):
-                    file.write(particle_dicc[str(j)]+'\n')
-            file.close()
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             # Cierra window
             window.withdraw()
@@ -113,19 +105,15 @@ def finishSel_2():
     if(f.voltage != ''):
         # Evita recibir valores esteticos predeterminados
         if((nNeutron.get() != ' Neutrones') & (nElectron.get() != ' Electrones') & (nProton.get() != ' Protones')):
-            # verifies txt existence
-            if (os.path.isfile("particulas.txt")):
-                # Remueve txt si existia
-                os.remove("particulas.txt")
             # Crea nuevo txt
-            file= open("particulas.txt","w+")
+            file= open("particulas.txt","r")
             # Llama funcion 
             a = f.customizarParticula('Customized', float(nNeutron.get()), float(nProton.get()), float(nElectron.get()))
             f.addParticle(a)
             messagebox.showinfo(message = 'VALORES ingresados con EXITO', title = 'Valor Ingresado')
             # Cierra funcion window_2
             window_2.withdraw()
-            generatePlot()
+            file.close()
         else:
             messagebox.showinfo(message = 'Ingrese valores ADECUADOS', title = 'Fatal!!')
     else:
@@ -246,7 +234,8 @@ def particleSummoner():
                     ' Positron', 
                     ' Antimuon', 
                     ' Alpha', 
-                    ' Deuterium')
+                    ' Deuterium',
+                     ' Customized')
         # Saca valor del optionMenu
         variable = StringVar(window)
         variable.set(' Particula 1')
